@@ -200,7 +200,7 @@ class FasterRCNNProcessFactory(dataprocess.CProcessFactory):
         # relative path -> as displayed in Ikomia application process tree
         self.info.path = "Plugins/Python/Detection"
         self.info.iconPath = "icons/pytorch-logo.png"
-        self.info.version = "1.0.0"
+        self.info.version = "1.0.1"
         self.info.keywords = "torchvision,detection,object,resnet,fpn,pytorch"
 
     def create(self, param=None):
