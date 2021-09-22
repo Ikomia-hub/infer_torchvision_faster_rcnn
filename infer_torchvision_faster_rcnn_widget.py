@@ -1,7 +1,7 @@
 import os
 from ikomia import utils, core, dataprocess
 from ikomia.utils import pyqtutils, qtconversion
-from FasterRCNN.FasterRCNN_process import FasterRCNNParam
+from infer_torchvision_faster_rcnn.infer_torchvision_faster_rcnn_process import FasterRcnnParam
 # PyQt GUI framework
 from PyQt5.QtWidgets import *
 
@@ -10,13 +10,13 @@ from PyQt5.QtWidgets import *
 # - Class which implements widget associated with the process
 # - Inherits core.CProtocolTaskWidget from Ikomia API
 # --------------------
-class FasterRCNNWidget(core.CWorkflowTaskWidget):
+class FasterRcnnWidget(core.CWorkflowTaskWidget):
 
     def __init__(self, param, parent):
         core.CWorkflowTaskWidget.__init__(self, parent)
 
         if param is None:
-            self.parameters = FasterRCNNParam()
+            self.parameters = FasterRcnnParam()
         else:
             self.parameters = param
 
@@ -82,13 +82,13 @@ class FasterRCNNWidget(core.CWorkflowTaskWidget):
 # - Factory class to build process widget object
 # - Inherits dataprocess.CWidgetFactory from Ikomia API
 # --------------------
-class FasterRCNNWidgetFactory(dataprocess.CWidgetFactory):
+class FasterRcnnWidgetFactory(dataprocess.CWidgetFactory):
 
     def __init__(self):
         dataprocess.CWidgetFactory.__init__(self)
         # Set the name of the process -> it must be the same as the one declared in the process factory class
-        self.name = "FasterRCNN"
+        self.name = "infer_torchvision_faster_rcnn"
 
     def create(self, param):
         # Create widget object
-        return FasterRCNNWidget(param, None)
+        return FasterRcnnWidget(param, None)

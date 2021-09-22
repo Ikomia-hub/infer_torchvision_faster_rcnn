@@ -5,17 +5,17 @@ from ikomia import dataprocess
 # - Interface class to integrate the process with Ikomia application
 # - Inherits dataprocess.CPluginProcessInterface from Ikomia API
 # --------------------
-class FasterRCNN(dataprocess.CPluginProcessInterface):
+class IkomiaPlugin(dataprocess.CPluginProcessInterface):
 
     def __init__(self):
         dataprocess.CPluginProcessInterface.__init__(self)
 
     def getProcessFactory(self):
-        from FasterRCNN.FasterRCNN_process import FasterRCNNProcessFactory
+        from infer_torchvision_faster_rcnn.infer_torchvision_faster_rcnn_process import FasterRcnnFactory
         # Instantiate process object
-        return FasterRCNNProcessFactory()
+        return FasterRcnnFactory()
 
     def getWidgetFactory(self):
-        from FasterRCNN.FasterRCNN_widget import FasterRCNNWidgetFactory
+        from infer_torchvision_faster_rcnn.infer_torchvision_faster_rcnn_widget import FasterRcnnWidgetFactory
         # Instantiate associated widget object
-        return FasterRCNNWidgetFactory()
+        return FasterRcnnWidgetFactory()

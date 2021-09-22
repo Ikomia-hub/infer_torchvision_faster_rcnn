@@ -10,7 +10,7 @@ import torchvision.transforms as transforms
 # - Class to handle the process parameters
 # - Inherits core.CProtocolTaskParam from Ikomia API
 # --------------------
-class FasterRCNNParam(core.CWorkflowTaskParam):
+class FasterRcnnParam(core.CWorkflowTaskParam):
 
     def __init__(self):
         core.CWorkflowTaskParam.__init__(self)
@@ -47,7 +47,7 @@ class FasterRCNNParam(core.CWorkflowTaskParam):
 # - Class which implements the process
 # - Inherits core.CProtocolTask or derived from Ikomia API
 # --------------------
-class FasterRCNNProcess(dataprocess.C2dImageTask):
+class FasterRcnn(dataprocess.C2dImageTask):
 
     def __init__(self, name, param):
         dataprocess.C2dImageTask.__init__(self, name)
@@ -64,7 +64,7 @@ class FasterRCNNProcess(dataprocess.C2dImageTask):
 
         # Create parameters class
         if param is None:
-            self.setParam(FasterRCNNParam())
+            self.setParam(FasterRcnnParam())
         else:
             self.setParam(copy.deepcopy(param))
 
@@ -178,12 +178,12 @@ class FasterRCNNProcess(dataprocess.C2dImageTask):
 # - Factory class to build process object
 # - Inherits dataprocess.CProcessFactory from Ikomia API
 # --------------------
-class FasterRCNNProcessFactory(dataprocess.CTaskFactory):
+class FasterRcnnFactory(dataprocess.CTaskFactory):
 
     def __init__(self):
         dataprocess.CTaskFactory.__init__(self)
         # Set process information as string here
-        self.info.name = "FasterRCNN"
+        self.info.name = "infer_torchvision_faster_rcnn"
         self.info.shortDescription = "Faster R-CNN inference model for object detection."
         self.info.description = "Faster R-CNN inference model for object detection. " \
                                 "Implementation from PyTorch torchvision package. " \
@@ -205,4 +205,4 @@ class FasterRCNNProcessFactory(dataprocess.CTaskFactory):
 
     def create(self, param=None):
         # Create process object
-        return FasterRCNNProcess(self.info.name, param)
+        return FasterRcnn(self.info.name, param)
