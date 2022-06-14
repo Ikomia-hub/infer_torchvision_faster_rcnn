@@ -128,7 +128,7 @@ class FasterRcnn(dataprocess.C2dImageTask):
             use_torchvision = param.dataset != "Custom"
             self.model = models.faster_rcnn(use_pretrained=use_torchvision, classes=len(self.class_names))
             if param.dataset == "Custom":
-                self.model.load_state_dict(torch.load(param.model_path))
+                self.model.load_state_dict(torch.load(param.model_path, map_location=self.device))
 
             self.model.to(self.device)
             self.generate_colors()
@@ -219,7 +219,7 @@ class FasterRcnnFactory(dataprocess.CTaskFactory):
         # relative path -> as displayed in Ikomia application process tree
         self.info.path = "Plugins/Python/Detection"
         self.info.iconPath = "icons/pytorch-logo.png"
-        self.info.version = "1.1.0"
+        self.info.version = "1.1.1"
         self.info.keywords = "torchvision,detection,object,resnet,fpn,pytorch"
 
     def create(self, param=None):
