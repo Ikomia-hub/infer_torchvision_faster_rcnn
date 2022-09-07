@@ -59,10 +59,8 @@ class FasterRcnn(dataprocess.C2dImageTask):
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         # Remove graphics input
         self.removeInput(1)
-        # Add graphics output
-        self.addOutput(dataprocess.CGraphicsOutput())
-        # Add numeric output
-        self.addOutput(dataprocess.CBlobMeasureIO())
+        # Add object detection output
+        self.addOutput(dataprocess.CObjectDetectionIO())
 
         # Create parameters class
         if param is None:
@@ -147,11 +145,8 @@ class FasterRcnn(dataprocess.C2dImageTask):
         self.forwardInputImage(0, 0)
 
         # Set graphics output
-        graphics_output = self.getOutput(1)
-        graphics_output.setNewLayer("FasterRCNN")
-        graphics_output.setImageIndex(0)
-        numeric_output = self.getOutput(2)
-        numeric_output.clearData()
+        obj_detect_out = self.getOutput(1)
+        obj_detect_out.init("FasterRCNN", 0)
 
         for i in range(len(boxes)):
             if scores[i] > param.confidence:
@@ -160,31 +155,8 @@ class FasterRcnn(dataprocess.C2dImageTask):
                 box_y = float(boxes[i][1])
                 box_w = float(boxes[i][2] - boxes[i][0])
                 box_h = float(boxes[i][3] - boxes[i][1])
-                prop_rect = core.GraphicsRectProperty()
-                prop_rect.pen_color = self.colors[labels[i]]
-                prop_rect.category = self.class_names[labels[i]]
-                graphics_box = graphics_output.addRectangle(box_x, box_y, box_w, box_h, prop_rect)
-                graphics_box.setCategory(self.class_names[labels[i]])
-                # label
-                prop_text = core.GraphicsTextProperty()
-                prop_text.color = self.colors[labels[i]]
-                prop_text.font_size = 8
-                prop_text.bold = True
-                label = self.class_names[labels[i]] + ": {:.3f}".format(scores[i])
-                graphics_output.addText(label, box_x, box_y, prop_text)
-                # object results
-                results = []
-                confidence_data = dataprocess.CObjectMeasure(dataprocess.CMeasure(core.MeasureId.CUSTOM, "Confidence"),
-                                                             float(scores[i]),
-                                                             graphics_box.getId(),
-                                                             self.class_names[labels[i]])
-                box_data = dataprocess.CObjectMeasure(dataprocess.CMeasure(core.MeasureId.BBOX),
-                                                      [box_x, box_y, box_w, box_h],
-                                                      graphics_box.getId(),
-                                                      self.class_names[labels[i]])
-                results.append(confidence_data)
-                results.append(box_data)
-                numeric_output.addObjectMeasures(results)
+                obj_detect_out.addObject(self.class_names[labels[i]], float(scores[i]),
+                                         box_x, box_y, box_w, box_h, self.colors[labels[i]])
 
         # Step progress bar:
         self.emitStepProgress()
@@ -219,7 +191,7 @@ class FasterRcnnFactory(dataprocess.CTaskFactory):
         # relative path -> as displayed in Ikomia application process tree
         self.info.path = "Plugins/Python/Detection"
         self.info.iconPath = "icons/pytorch-logo.png"
-        self.info.version = "1.1.1"
+        self.info.version = "1.2.0"
         self.info.keywords = "torchvision,detection,object,resnet,fpn,pytorch"
 
     def create(self, param=None):
