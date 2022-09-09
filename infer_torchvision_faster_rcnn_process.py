@@ -155,7 +155,7 @@ class FasterRcnn(dataprocess.C2dImageTask):
                 box_y = float(boxes[i][1])
                 box_w = float(boxes[i][2] - boxes[i][0])
                 box_h = float(boxes[i][3] - boxes[i][1])
-                obj_detect_out.addObject(self.class_names[labels[i]], float(scores[i]),
+                obj_detect_out.addObject(i, self.class_names[labels[i]], float(scores[i]),
                                          box_x, box_y, box_w, box_h, self.colors[labels[i]])
 
         # Step progress bar:
