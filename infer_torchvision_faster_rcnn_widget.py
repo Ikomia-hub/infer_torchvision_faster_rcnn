@@ -31,7 +31,7 @@ class FasterRcnnWidget(core.CWorkflowTaskWidget):
 
         self.browse_model = pyqtutils.append_browse_file(self.grid_layout, "Model path", self.parameters.model_path)
 
-        self.browse_classes = pyqtutils.append_browse_file(self.grid_layout, "Classes path", self.parameters.classes_path)
+        self.browse_classes = pyqtutils.append_browse_file(self.grid_layout, "Classes path", self.parameters.class_file)
 
         self.spin_confidence = pyqtutils.append_double_spin(self.grid_layout, "Confidence", self.parameters.confidence,
                                                             0.0, 1.0, 0.1, 2)
@@ -71,7 +71,7 @@ class FasterRcnnWidget(core.CWorkflowTaskWidget):
         self.parameters.update = True
         self.parameters.dataset = self.combo_dataset.currentText()
         self.parameters.model_path = self.browse_model.path
-        self.parameters.classes_path = self.browse_classes.path
+        self.parameters.class_file = self.browse_classes.path
         self.parameters.confidence = self.spin_confidence.value()
 
         # Send signal to launch the process

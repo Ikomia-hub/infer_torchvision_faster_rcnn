@@ -19,7 +19,7 @@ class FasterRcnnParam(core.CWorkflowTaskParam):
         self.model_name = 'FasterRcnn'
         self.dataset = 'Coco2017'
         self.model_path = ''
-        self.classes_path = os.path.dirname(os.path.realpath(__file__)) + "/models/coco2017_classes.txt"
+        self.class_file = os.path.dirname(os.path.realpath(__file__)) + "/models/coco2017_classes.txt"
         self.confidence = 0.5
         self.update = False
 
@@ -29,7 +29,7 @@ class FasterRcnnParam(core.CWorkflowTaskParam):
         self.model_name = param_map["model_name"]
         self.dataset = param_map["dataset"]
         self.model_path = param_map["model_path"]
-        self.classes_path = param_map["classes_path"]
+        self.class_file = param_map["class_file"]
         self.confidence = float(param_map["confidence"])
 
     def get_values(self):
@@ -39,7 +39,7 @@ class FasterRcnnParam(core.CWorkflowTaskParam):
         param_map["model_name"] = self.model_name
         param_map["dataset"] = self.dataset
         param_map["model_path"] = self.model_path
-        param_map["classes_path"] = self.classes_path
+        param_map["class_file"] = self.class_file
         param_map["confidence"] = str(self.confidence)
         return param_map
 
@@ -68,7 +68,7 @@ class FasterRcnn(dataprocess.CObjectDetectionTask):
         self.class_names.clear()
         param = self.get_param_object()
 
-        with open(param.classes_path) as f:
+        with open(param.class_file) as f:
             for row in f:
                 self.class_names.append(row[:-1])
 
