@@ -18,7 +18,7 @@ class FasterRcnnParam(core.CWorkflowTaskParam):
         # Place default value initialization here
         self.model_name = 'FasterRcnn'
         self.dataset = 'Coco2017'
-        self.model_path = ''
+        self.model_weight_file = ''
         self.class_file = os.path.dirname(os.path.realpath(__file__)) + "/models/coco2017_classes.txt"
         self.confidence = 0.5
         self.update = False
@@ -28,7 +28,7 @@ class FasterRcnnParam(core.CWorkflowTaskParam):
         # Parameters values are stored as string and accessible like a python dict
         self.model_name = param_map["model_name"]
         self.dataset = param_map["dataset"]
-        self.model_path = param_map["model_path"]
+        self.model_weight_file = param_map["model_weight_file"]
         self.class_file = param_map["class_file"]
         self.confidence = float(param_map["confidence"])
 
@@ -38,7 +38,7 @@ class FasterRcnnParam(core.CWorkflowTaskParam):
         param_map = {}
         param_map["model_name"] = self.model_name
         param_map["dataset"] = self.dataset
-        param_map["model_path"] = self.model_path
+        param_map["model_weight_file"] = self.model_weight_file
         param_map["class_file"] = self.class_file
         param_map["confidence"] = str(self.confidence)
         return param_map
@@ -114,7 +114,7 @@ class FasterRcnn(dataprocess.CObjectDetectionTask):
             use_torchvision = param.dataset != "Custom"
             self.model = models.faster_rcnn(use_pretrained=use_torchvision, classes=len(self.class_names))
             if param.dataset == "Custom":
-                self.model.load_state_dict(torch.load(param.model_path, map_location=self.device))
+                self.model.load_state_dict(torch.load(param.model_weight_file, map_location=self.device))
 
             self.model.to(self.device)
             self.set_names(self.class_names)

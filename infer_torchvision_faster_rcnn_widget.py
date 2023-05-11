@@ -29,7 +29,7 @@ class FasterRcnnWidget(core.CWorkflowTaskWidget):
         self.combo_dataset.setCurrentIndex(self._get_dataset_index())
         self.combo_dataset.currentIndexChanged.connect(self.on_combo_dataset_changed)
 
-        self.browse_model = pyqtutils.append_browse_file(self.grid_layout, "Model path", self.parameters.model_path)
+        self.browse_model = pyqtutils.append_browse_file(self.grid_layout, "Model path", self.parameters.model_weight_file)
 
         self.browse_classes = pyqtutils.append_browse_file(self.grid_layout, "Classes path", self.parameters.class_file)
 
@@ -70,7 +70,7 @@ class FasterRcnnWidget(core.CWorkflowTaskWidget):
         # Get parameters from widget
         self.parameters.update = True
         self.parameters.dataset = self.combo_dataset.currentText()
-        self.parameters.model_path = self.browse_model.path
+        self.parameters.model_weight_file = self.browse_model.path
         self.parameters.class_file = self.browse_classes.path
         self.parameters.confidence = self.spin_confidence.value()
 
