@@ -168,7 +168,7 @@ class FasterRcnnFactory(dataprocess.CTaskFactory):
         self.info.article = "Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks"
         self.info.journal = "IEEE Transactions on Pattern Analysis and Machine Intelligence, vol. 39, no. 6, pp. 1137-1149, 1 June 2017"
         self.info.year = 2017
-        self.info.licence = "BSD-3-Clause License"
+        self.info.license = "BSD-3-Clause License"
         self.info.documentation_link = "https://arxiv.org/abs/1506.01497"
         self.info.repository = "https://github.com/pytorch/vision"
         # relative path -> as displayed in Ikomia application process tree
