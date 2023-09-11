@@ -20,7 +20,7 @@ class FasterRcnnParam(core.CWorkflowTaskParam):
         self.dataset = 'Coco2017'
         self.model_weight_file = ''
         self.class_file = os.path.dirname(os.path.realpath(__file__)) + "/models/coco2017_classes.txt"
-        self.confidence = 0.5
+        self.conf_thres = 0.5
         self.update = False
 
     def set_values(self, param_map):
@@ -30,7 +30,7 @@ class FasterRcnnParam(core.CWorkflowTaskParam):
         self.dataset = param_map["dataset"]
         self.model_weight_file = param_map["model_weight_file"]
         self.class_file = param_map["class_file"]
-        self.confidence = float(param_map["confidence"])
+        self.conf_thres = float(param_map["conf_thres"])
 
     def get_values(self):
         # Send parameters values to Ikomia application
@@ -40,7 +40,7 @@ class FasterRcnnParam(core.CWorkflowTaskParam):
         param_map["dataset"] = self.dataset
         param_map["model_weight_file"] = self.model_weight_file
         param_map["class_file"] = self.class_file
-        param_map["confidence"] = str(self.confidence)
+        param_map["conf_thres"] = str(self.conf_thres)
         return param_map
 
 
@@ -133,7 +133,7 @@ class FasterRcnn(dataprocess.CObjectDetectionTask):
         self.emit_step_progress()
 
         for i in range(len(boxes)):
-            if scores[i] > param.confidence:
+            if scores[i] > param.conf_thres:
                 # box
                 box_x = float(boxes[i][0])
                 box_y = float(boxes[i][1])
