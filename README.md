@@ -69,6 +69,7 @@ By default the algorithm will use the FasterRcnn model trained on the COCO 2017 
 - **model_weight_file** (str, *optional*): Path to model weights file.
 - **class_file** (str, *optional*) = Path to text file (.txt) containing class names.
 
+**Parameters** should be in **strings format**  when added to the dictionary.
 
 ```python
 from ikomia.dataprocess.workflow import Workflow
