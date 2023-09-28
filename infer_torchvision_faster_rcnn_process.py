@@ -166,18 +166,14 @@ class FasterRcnnFactory(dataprocess.CTaskFactory):
         # Set process information as string here
         self.info.name = "infer_torchvision_faster_rcnn"
         self.info.short_description = "Faster R-CNN inference model for object detection."
-        self.info.description = "Faster R-CNN inference model for object detection. " \
-                                "Implementation from PyTorch torchvision package. " \
-                                "This Ikomia plugin can make inference of pre-trained model from " \
-                                "COCO dataset or custom trained model. Custom training can be made with " \
-                                "the associated FasterRCNNTrain plugin from Ikomia marketplace."
         self.info.authors = "Shaoqing Ren, Kaiming He, Ross Girshick, Jian Sun"
         self.info.article = "Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks"
         self.info.journal = "IEEE Transactions on Pattern Analysis and Machine Intelligence, vol. 39, no. 6, pp. 1137-1149, 1 June 2017"
         self.info.year = 2017
         self.info.license = "BSD-3-Clause License"
         self.info.documentation_link = "https://arxiv.org/abs/1506.01497"
-        self.info.repository = "https://github.com/pytorch/vision"
+        self.info.repository = "https://github.com/Ikomia-hub/infer_torchvision_faster_rcnn"
+        self.info.original_repository = "https://github.com/pytorch/vision"
         # relative path -> as displayed in Ikomia application process tree
         self.info.path = "Plugins/Python/Detection"
         self.info.icon_path = "icons/pytorch-logo.png"
