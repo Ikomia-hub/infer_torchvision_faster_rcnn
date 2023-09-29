@@ -179,6 +179,8 @@ class FasterRcnnFactory(dataprocess.CTaskFactory):
         self.info.icon_path = "icons/pytorch-logo.png"
         self.info.version = "1.3.1"
         self.info.keywords = "torchvision,detection,object,resnet,fpn,pytorch"
+        self.info.algo_type = core.AlgoType.INFER
+        self.info.algo_tasks = "OBJECT_DETECTION"
 
     def create(self, param=None):
         # Create process object
