@@ -177,7 +177,7 @@ class FasterRcnnFactory(dataprocess.CTaskFactory):
         # relative path -> as displayed in Ikomia application process tree
         self.info.path = "Plugins/Python/Detection"
         self.info.icon_path = "icons/pytorch-logo.png"
-        self.info.version = "1.3.1"
+        self.info.version = "1.3.2"
         self.info.keywords = "torchvision,detection,object,resnet,fpn,pytorch"
         self.info.algo_type = core.AlgoType.INFER
         self.info.algo_tasks = "OBJECT_DETECTION"
