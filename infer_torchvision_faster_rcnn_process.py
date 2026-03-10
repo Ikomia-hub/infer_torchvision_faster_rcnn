@@ -56,22 +56,25 @@ class FasterRcnn(dataprocess.CObjectDetectionTask):
         self.class_names = []
         self.colors = []
         # Detect if we have a GPU available
-        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device(
+            "cuda:0" if torch.cuda.is_available() else "cpu")
 
         # Create parameters class
         if param is None:
             self.set_param_object(FasterRcnnParam())
         else:
             self.set_param_object(copy.deepcopy(param))
-        
-        self.model_folder = os.path.join(os.path.dirname(os.path.realpath(__file__)), "weights")
+
+        self.model_folder = os.path.join(
+            os.path.dirname(os.path.realpath(__file__)), "weights")
 
     def load_class_names(self):
         self.class_names.clear()
         param = self.get_param_object()
 
         if param.class_file == "":
-            class_file = os.path.dirname(os.path.realpath(__file__)) + "/models/coco2017_classes.txt"
+            class_file = os.path.dirname(os.path.realpath(
+                __file__)) + "/models/coco2017_classes.txt"
         else:
             class_file = param.class_file
         with open(class_file) as f:
@@ -86,7 +89,7 @@ class FasterRcnn(dataprocess.CObjectDetectionTask):
     def predict(self, image):
         trs = transforms.Compose([
             transforms.ToTensor(),
-            ])
+        ])
 
         input_tensor = trs(image)
         input_tensor = input_tensor.unsqueeze(0)
@@ -122,9 +125,11 @@ class FasterRcnn(dataprocess.CObjectDetectionTask):
             # Load model
             use_torchvision = param.dataset != "Custom"
             torch.hub.set_dir(self.model_folder)
-            self.model = models.faster_rcnn(use_pretrained=use_torchvision, classes=len(self.class_names))
+            self.model = models.faster_rcnn(
+                use_pretrained=use_torchvision, classes=len(self.class_names))
             if param.dataset == "Custom":
-                self.model.load_state_dict(torch.load(param.model_weight_file, map_location=self.device))
+                self.model.load_state_dict(torch.load(
+                    param.model_weight_file, map_location=self.device))
 
             self.model.to(self.device)
             self.set_names(self.class_names)
@@ -146,7 +151,8 @@ class FasterRcnn(dataprocess.CObjectDetectionTask):
                 box_y = float(boxes[i][1])
                 box_w = float(boxes[i][2] - boxes[i][0])
                 box_h = float(boxes[i][3] - boxes[i][1])
-                self.add_object(i, labels[i], float(scores[i]), box_x, box_y, box_w, box_h)
+                self.add_object(i, labels[i], float(
+                    scores[i]), box_x, box_y, box_w, box_h)
 
         # Step progress bar:
         self.emit_step_progress()
@@ -177,7 +183,9 @@ class FasterRcnnFactory(dataprocess.CTaskFactory):
         # relative path -> as displayed in Ikomia application process tree
         self.info.path = "Plugins/Python/Detection"
         self.info.icon_path = "icons/pytorch-logo.png"
-        self.info.version = "1.3.2"
+        self.info.version = "2.0.0"
+        self.info.min_ikomia_version = "0.15.0"
+        self.info.min_python_version = "3.11.0"
         self.info.keywords = "torchvision,detection,object,resnet,fpn,pytorch"
         self.info.algo_type = core.AlgoType.INFER
         self.info.algo_tasks = "OBJECT_DETECTION"
